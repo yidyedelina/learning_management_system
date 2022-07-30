@@ -1,2 +1,3 @@
-subject_code, subject_name, credit_hr, batch_year,dep_id,semester
-cs123, computer programming, 4, 1, 2
+cs123,computer programming,4,1,2,2
+cs2020,computer algebra,4,1,2,2
+cs2020,computer mechanics,3,1,2,1
