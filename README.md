@@ -11,20 +11,16 @@ this is a project we are going to submit for our computer programming assignment
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://www.github.com/yidyedelina/learning_management_system
 ```
 
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd learning_management_system
 ```
 
 if you don't have git in your local machine download the zip file and extract
 
 
-
-## Lessons Learned
-
-What did you learn while building this project? What challenges did you face and how did you overcome them?
 
