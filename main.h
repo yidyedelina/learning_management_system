@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 using namespace std;
 string *str_to_array(string s, int n);
 int validateId(string s);
@@ -16,14 +17,20 @@ struct student
     char sex;
     int age;
 };
+struct studentGpa
+{
+    string studId;
+    float gpa;
+};
 class Students
 {
     vector<student> student_list;
-    public:
-        Students(int dep_id, char section, int join_year);
-        vector<student> getStudents();
-        student getStudent(string id);
-        void addStudent(string id);
+
+public:
+    Students(int dep_id, char section, int join_year);
+    vector<student> getStudents();
+    student getStudent(string id);
+    void addStudent(string id);
 };
 struct course
 {
@@ -65,13 +72,19 @@ public:
     Scores(int dep_id, char section, int semester, int academic_year, int batch_year);
     vector<score> getScores();
     vector<score> getScore(string stud_id);
-    void setStudentGrade(score *s);
+    void setStudentGrade(score s);
     void editStudentGrade(float mark, string stud_id, string course_code);
     float markToGrade(float mark);
     string markToLetter(float mark);
-    float calculate_gpa(vector<score> sc);
-    vector<score> getTop10(int dep_id, int sem, int academic_year);
+    float calculateGpa(vector<score> sc);
+    vector<studentGpa> getTop10();
+    vector<string> getStudentId();
+    vector<studentGpa> calculateClassGpa(vector<score> sc);
+    unordered_set<string> vectorToSet(vector<string> vec);
 };
+
 vector<string *> loadData(string filename, int no_fields);
 vector<string> lineData(string filename);
+void addData(string filename, string data);
+void writeData(string filename, string data);
 #endif

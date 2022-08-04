@@ -3,6 +3,7 @@
 #include <sstream>
 #include <regex>
 #include <fstream>
+#include <unordered_set>
 #include "main.h"
 using namespace std;
 /**
@@ -70,8 +71,29 @@ vector<string *> loadData(string filename, int no_fields)
     return data;
 }
 
+void addData(string filename, string data)
+{
+    ofstream file_out;
+
+    file_out.open(filename, std::ios_base::app);
+    file_out << data << endl;
+    file_out.close();
+    cout << "File added successfully" << endl;
+}
+void writeData(string filename, string data)
+{
+    ofstream file_out;
+
+    file_out.open(filename);
+    file_out << data << endl;
+    file_out.close();
+    cout << "File added successfully" << endl;
+}
 int main()
 {
     Scores *sc = new Scores(1, 'D', 2, 2014, 2013);
-    cout << sc->calculate_gpa(sc->getScores());
+    score s = sc->getScores()[0];
+    s.mark = 98;
+    sc->setStudentGrade(s);
+    vector<studentGpa> st = sc->getTop10();
 }

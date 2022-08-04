@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_set>
+#include <algorithm>
 #include "main.h"
 unordered_map<string, float> grade_reference = {{"A+", 4}, {"A", 4}, {"A-", 3.75}, {"B+", 3.5}, {"B", 3}, {"B-", 2.75}, {"C+", 2.5}, {"C", 2}, {"C-", 1.75}, {"D", 1}, {"F", 0}};
 Scores::Scores(int dep_id,char section,int semester, int academic_year, int batch_year)
@@ -64,7 +66,7 @@ string Scores::markToLetter(float mark)
     return "F";
 }
 
-float Scores::calculate_gpa(vector<score> sc)
+float Scores::calculateGpa(vector<score> sc)
 {
     float weight = 0;
     float cr_sum = 0;
@@ -78,3 +80,82 @@ float Scores::calculate_gpa(vector<score> sc)
     }
     return weight/cr_sum;
 }
+vector<studentGpa> Scores::calculateClassGpa(vector<score> sc)
+{
+    vector<string> duplicateStudentId = getStudentId();
+    unordered_set<string> uniqueStudentId = vectorToSet(duplicateStudentId);
+    vector<studentGpa> gpaList;
+    studentGpa student;
+    for (unordered_set<string>::iterator itr = uniqueStudentId.begin(); itr != uniqueStudentId.end(); itr++)
+    {
+        string studentId = (*itr);
+        vector<score> studentScore = getScore(studentId);
+        float gpa = calculateGpa(studentScore);
+        student.gpa = gpa;
+        student.studId = studentId;
+        gpaList.push_back(student);
+    }
+    return gpaList;
+}
+vector<string> Scores::getStudentId()
+{
+    vector<string> s;
+    for (int i = 0; i < score_list.size(); i++)
+    {
+        s.push_back(score_list[i].student_id);
+    }
+    return s;
+}
+bool compare(studentGpa s, studentGpa t)
+{
+    return (s.gpa > t.gpa);
+}
+vector<studentGpa> Scores::getTop10()
+{
+    vector<studentGpa> calculatedGrade = calculateClassGpa(score_list);
+    sort(calculatedGrade.begin(), calculatedGrade.end(), compare);
+    int i = 0;
+    for (vector<studentGpa>::iterator itr = calculatedGrade.begin(); itr != calculatedGrade.end();itr++)
+    {
+        cout << (*itr).gpa << endl;
+        i++;
+        if(i == 10)
+        {
+            break;
+        }
+    }
+    return calculatedGrade;
+}
+unordered_set<string> Scores::vectorToSet(vector<string> vec)
+{
+    unordered_set<string> set;
+    for (int i = 0; i < vec.size(); i++)
+    {
+        set.insert(vec[i]);
+    }
+    return set;
+}
+
+//TODO: validating before inserting the data if it exist
+void Scores::setStudentGrade(score s)
+{
+    string data = s.course_code + "," + s.student_id + "," + to_string(s.mark) + "," + to_string(s.semester) + "," + to_string(s.academic_year) + "," + to_string(s.dep_id) + "," + s.section + "," + to_string(s.batch_year);
+    addData("Score", data);
+}
+//TODO:
+/**
+ * copy all the data to temp container
+ * filter the container to the set we want edit
+ * rewrite the file into Score file
+ * append the edited file at the end
+ */
+void Scores::editStudentGrade(float mark, string stud_id, string course_code)
+{
+
+}
+//TODO:
+/**
+ * load data from score table
+ * and change them to vector<score> list
+ * and return the vector
+ */
