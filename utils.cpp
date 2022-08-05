@@ -44,7 +44,12 @@ int  validateId(string s)
     regex b("^(ets)[0-9]{4}(/[0-1][0-4])$");
     return regex_match(s, b);
 }
-
+/**
+ * @brief function change string to an vector of string using comma as a delimeter
+ * 
+ * @param filename 
+ * @return vector<string> 
+ */
 vector<string> lineData(string filename)
 {
     vector<string> data;
@@ -59,6 +64,13 @@ vector<string> lineData(string filename)
     }
     return data;
 }
+/**
+ * @brief the function load the data from a file and break down them into number of field and store them in vectore
+ * 
+ * @param filename 
+ * @param no_fields 
+ * @return vector<string *> a collection of fields
+ */
 vector<string *> loadData(string filename, int no_fields)
 {
     vector<string*> data;
@@ -70,6 +82,12 @@ vector<string *> loadData(string filename, int no_fields)
     }
     return data;
 }
+/**
+ * @brief add a data at the last line of a given file
+ * 
+ * @param filename 
+ * @param data 
+ */
 
 void addData(string filename, string data)
 {
@@ -80,6 +98,12 @@ void addData(string filename, string data)
     file_out.close();
     cout << "File added successfully" << endl;
 }
+/**
+ * @brief a function override the data any file we give it to 
+ * 
+ * @param filename: the name of the file we need to write
+ * @param data: the data 
+ */
 void writeData(string filename, string data)
 {
     ofstream file_out;
